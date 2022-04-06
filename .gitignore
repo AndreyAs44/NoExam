@@ -1,2 +1,6 @@
 cat .gitignore
 Modules/
+/fp___.err
+/main.o
+/fp___.out
+/main.exe

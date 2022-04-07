@@ -15,7 +15,7 @@ const
   ///arrays / массивы
   ///encoding name array / массив названий кодировок
   //Добавлять по необходимости и с новыми кодировками
-  ENC_ARR: array of string = ('ANSI', 'DOS', 'KOI8', 'UTF-8', 'UTF-16LE', 'UTF-16BE');
+  ENC_ARR: array of string = ('ANSI', 'DOS', 'KOI8', 'UTF-8 (UNICODE)', 'UTF-16LE (UNICODE)', 'UTF-16BE (UNICODE)');
   
   ///ansi
   ANSI_ARR: array of integer = (224, 225, 226, 227, 228, 229, 184, 230, 231, 232, 
@@ -32,33 +32,17 @@ const
   233, 234, 235, 236, 237, 238, 239, 240, 242, 243, 244, 245, 230, 232, 227, 254, 
   251, 253, 255, 249, 248, 252, 224, 241);
   ///utf8
-  UTF8_ARR: array of integer = (208, 176, 208, 177, 208, 178, 208, 179, 208, 180, 
-  208, 181, 209, 145, 208, 182, 208, 183, 208, 184, 208, 185, 208, 186, 208, 187,
-  208, 188, 208, 189, 208, 190, 208, 191, 209, 128, 209, 129, 209, 130, 209, 131, 
-  209, 132, 209, 133, 209, 134, 209, 135, 209, 136, 209, 137, 209, 138, 209, 139, 
-  209, 140, 209, 141, 209, 142, 209, 143, 208, 144, 208, 145, 208, 146, 208, 147,
-  208, 148, 208, 149, 208, 129, 208, 150, 208, 151, 208, 152, 208, 153, 208, 154,
-  208, 155, 208, 156, 208, 157, 208, 158, 208, 159, 208, 160, 208, 161, 208, 162, 
-  208, 163, 208, 164, 208, 165, 208, 166, 208, 167, 208, 168, 208, 169, 208, 170,
-  208, 171, 208, 172, 208, 173, 208, 174, 208, 175);
+  UTF8_ARR: array of integer = (208, 209);
   ///utf16le
-  UTF16LE_ARR: array of integer = (255, 254, 48, 4, 49, 4, 50, 4, 51, 4, 52, 4, 53, 
-  4, 81, 4, 54, 4, 55, 4, 56, 4, 57, 4, 58, 4, 59, 4, 60, 4, 61, 4, 62, 4, 63, 4, 
-  64, 4, 65, 4, 66, 4, 67, 4, 68, 4, 69, 4, 70, 4, 71, 4, 72, 4, 73, 4, 74, 4, 75,
-  4, 76, 4, 77, 4, 78, 4, 79, 4, 16, 4, 17, 4, 18, 4, 19, 4, 20, 4, 21, 4, 1, 4, 
-  22, 4, 23, 4, 24, 4, 25, 4);
+  UTF16LE_ARR: array of integer = (255, 254);
   ///utf16be
-  UTF16BE_ARR: array of integer = (254, 255, 4, 48, 4, 49, 4, 50, 4, 51, 4, 52, 4, 
-  53, 4, 81, 4, 54, 4, 55, 4, 56, 4, 57, 4, 58, 4, 59, 4, 60, 4, 61, 4, 62, 4, 63,
-  4, 64, 4, 65, 4, 66, 4, 67, 4, 68, 4, 69, 4, 70, 4, 71, 4, 72, 4, 73, 4, 74, 4,
-  75, 4, 76, 4, 77, 4, 78, 4, 79, 4, 16, 4, 17, 4, 18, 4, 19, 4, 20, 4, 21, 4, 1,
-  4, 22, 4, 23, 4, 24, 4, 25, 4);
+  UTF16BE_ARR: array of integer = (254, 255);
 
 var
   ///text var
   tfIn, tfOut, tf: TextFile;
   ///arrays
-  scalesArr: array of integer; 
+  sclArr: array of integer; 
   byteArr: array of integer; 
   ///other var
   fileName: string;
@@ -129,6 +113,7 @@ begin
   
   Println('');
   Println('Read file, and write to byteArr: ' + IN_PATH + name);
+  
   reset(tf);
   while not eof(tf) do
   begin
@@ -159,26 +144,100 @@ begin
   Println('Done.');
 end;
 
-///scoring points for the correct encoding / начисление баллов за верную кодировку
-procedure Scales(name: string);
+///adding weight by encoding / добавление веса по кодировкам
+procedure WeightAdd(sclId: integer; arr: array of integer);
+var
+  i, j: integer;
 begin
-  //передаем массив по которому смотрим, передаем ссылку на массив в котором будут значения кодировок, 
+  i := 0;
+  while (i < length(byteArr) - 1) do
+  begin
+    inc(i);
+    j := 0;
+    while (j < length(arr)) do
+    begin
+      if (byteArr[i] = arr[j]) then 
+      begin
+        inc(sclArr[sclId]);
+        break;
+      end;
+      inc(j);
+    end;
+  end;
+end;
+
+///scoring points for the correct encoding / начисление баллов за верную кодировку
+procedure SetScales();
+begin
+  setLength(sclArr, 0);
+  setLength(sclArr, length(ENC_ARR) + 1);
+  
+  //если это кодировка UTF16LE
+  if (length(byteArr) > 1) then
+  begin
+    if (byteArr[1] = UTF16LE_ARR[0]) and (byteArr[2] = UTF16LE_ARR[1]) then 
+    begin
+      sclArr[5] := 1;
+      exit;
+    end;
+    //если это кодировка UTF16BE
+    if (byteArr[1] = UTF16BE_ARR[0]) and (byteArr[2] = UTF16BE_ARR[1]) then 
+    begin
+      sclArr[6] := 1;
+      exit;
+    end;
+  end;
+  
+  
+  //ANSI
+  WeightAdd(1, ANSI_ARR);
+  //DOS
+  WeightAdd(2, DOS_ARR);
+  //KOI
+  WeightAdd(3, KOI8_ARR);
+  //UTF8
+  WeightAdd(4, UTF8_ARR);
 end;
 
 ///main / основная
 begin
   //вывод в файл и в консоль байт кодов файлов
   ResetFile(OUT_PATH);
-  FileToBytePrint('dataANSI.txt');
-  FileToBytePrint('dataDOS.txt');
-  FileToBytePrint('dataUTF8.txt');
-  FileToBytePrint('dataUTF16LE.txt');
-  FileToBytePrint('dataKOI8.txt');
-  FileToBytePrint('dataUTF16BE.txt');
+  //  FileToBytePrint('dataANSI.txt');
+  //  FileToBytePrint('dataDOS.txt');
+  //  FileToBytePrint('dataKOI8.txt');
+  //  FileToBytePrint('dataUTF8.txt');
+  //  FileToBytePrint('dataUTF16LE.txt');
+  //  FileToBytePrint('dataUTF16BE.txt');
   
-  //запись в байт массив файла
-  fileName := 'dataANSI.txt';
-  FileToByteArr(fileName);
+    //запись в байт массив файла
+  //  fileName := 'dataANSI.txt';
+  //  FileToByteArr(fileName);
+  
+  FileToByteArr('dataANSI.txt');
+  SetScales();
+  Println(intToStr(sclArr[1]) + ' ' + intToStr(sclArr[2]) + ' ' + intToStr(sclArr[3]) + ' ' + intToStr(sclArr[4]) + ' ' + intToStr(sclArr[5]) + ' ' + intToStr(sclArr[6]));
+  
+  FileToByteArr('dataDOS.txt');
+  SetScales();
+  Println(intToStr(sclArr[1]) + ' ' + intToStr(sclArr[2]) + ' ' + intToStr(sclArr[3]) + ' ' + intToStr(sclArr[4]) + ' ' + intToStr(sclArr[5]) + ' ' + intToStr(sclArr[6]));
+  
+  FileToByteArr('dataKOI8.txt');
+  SetScales();
+  Println(intToStr(sclArr[1]) + ' ' + intToStr(sclArr[2]) + ' ' + intToStr(sclArr[3]) + ' ' + intToStr(sclArr[4]) + ' ' + intToStr(sclArr[5]) + ' ' + intToStr(sclArr[6]));
+  
+  FileToByteArr('dataUTF8.txt');
+  SetScales();
+  Println(intToStr(sclArr[1]) + ' ' + intToStr(sclArr[2]) + ' ' + intToStr(sclArr[3]) + ' ' + intToStr(sclArr[4]) + ' ' + intToStr(sclArr[5]) + ' ' + intToStr(sclArr[6]));
+  
+  FileToByteArr('dataUTF16LE.txt');
+  SetScales();
+  Println(intToStr(sclArr[1]) + ' ' + intToStr(sclArr[2]) + ' ' + intToStr(sclArr[3]) + ' ' + intToStr(sclArr[4]) + ' ' + intToStr(sclArr[5]) + ' ' + intToStr(sclArr[6]));
+  
+  FileToByteArr('dataUTF16BE.txt');
+  SetScales();
+  Println(intToStr(sclArr[1]) + ' ' + intToStr(sclArr[2]) + ' ' + intToStr(sclArr[3]) + ' ' + intToStr(sclArr[4]) + ' ' + intToStr(sclArr[5]) + ' ' + intToStr(sclArr[6]));
+  
   
   readln;
 end.

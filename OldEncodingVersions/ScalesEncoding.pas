@@ -1,4 +1,12 @@
-﻿program NoExam;
+﻿///Develop by Sergeev Andrey, Gavrilov Matvey, Yaurov Gleb
+///NSTU IST I-02, 2022
+///Разработано Сергеевым Андреем, Гавриловым Матвеем, Яуровым Глебом
+///НГТУ ИСТ И-02, 2022
+///
+///Transfer and assignment of rights to other persons is PROHIBITED!
+///Передача и присвоение прав другим лицам - ЗАПРЕЩЕНА!
+
+program ScalesEncoding;
 
 //if free pascal / если фри паскаль - раскомментить
 uses windows, sysutils, classes;
@@ -10,7 +18,7 @@ const
   
   ///console file / файл того что в консоли
   //rename to your / переделать на свой
-  OUT_PATH = 'C:\Users\as44s\Desktop\Study\Pascal\NoExam\Out_Files\Out1.txt';
+  OUT_PATH = 'C:\Users\as44s\Desktop\Study\Pascal\NoExam\Out_Files\OutScales.txt';
   
   ///arrays / массивы
   ///encoding name array / массив названий кодировок

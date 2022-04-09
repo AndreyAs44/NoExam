@@ -12,7 +12,7 @@ uses
   ///Systems
   Windows, SysUtils,
   ///NoExam
-  FilesTools, CheckUTF16, Localization;
+  FilesTools, CheckUTF16, CheckUTF8, CheckScales, Localization;
 
 const
   ///folder with text files / папка с текстовыми файлами
@@ -22,14 +22,16 @@ const
   OUT_PATH: rawbytestring = '\Out_Files\LogHybrid.txt';
 
 var
-  byteArr: array of integer; 
+  singleByteArr, doubleByteArr: array of integer;
+  fileStr: rawbytestring;
 
 ///byte code of characters in the file / байт код символов в файле
 procedure GetByteArrFromFile(name: rawbytestring);
 var
   tf: TextFile;
   temp, s: rawbytestring;
-  i: integer;
+  ws: widestring;
+  i, m, n: integer;
 begin
   Println(OUT_PATH, GetLocalization(0) + IN_PATH + name);
   assign(tf, ExtractFilePath(ParamStr(0)) + IN_PATH + name);
@@ -43,21 +45,41 @@ begin
     s := s + temp;
   end;
   
-  //вычисление байт массива
+  ///calculating a single byte array / вычисление одиночного байт массива
   i := 0;
-  setLength(byteArr, 0);
-  setLength(byteArr, length(s) + 1);
+  setLength(singleByteArr, 0);
+  setLength(singleByteArr, length(s) + 1);
   while (i < length(s)) do
   begin
     inc(i);
-    byteArr[i] := integer(ord(s[i])); // сделать массив 
+    singleByteArr[i] := integer(ord(s[i])); // сделать массив 
+  end;
+  
+  ///calculating a double byte array / вычисление двойного байт массива
+  m := length(s); 
+  setlength(ws, m);
+  n := MultiByteToWideChar(CP_UTF8, 0, pchar(s), m, pwidechar(ws), m);
+  //
+  i := 0;
+  setLength(doubleByteArr, 0);
+  setLength(doubleByteArr, length(ws) + 1);
+  while (i < length(ws)) do
+  begin
+    inc(i);
+    doubleByteArr[i] := integer(ord(ws[i]));
+    
+    if (integer(ord(ws[i])) = 0) then 
+    begin
+      setLength(doubleByteArr, i);
+      break;
+    end;
   end;
   
   close(tf);
   Println(OUT_PATH, GetLocalization(1));
 end;
 
-///getting encoding by byteArr / получение кодировки по byteArr
+///getting encodings / получение кодировок
 function GetEncode() : rawbytestring;
 begin
   ///hybrid definition. / гибридное определение.
@@ -65,19 +87,29 @@ begin
   ///совмещается метод весов и закономерных сортировок
   
   ///check UTF16LE
-  if (IsUTF16LE(byteArr)) then
+  if (IsUTF16LE(singleByteArr)) then
   begin
     GetEncode := 'UTF-16LE (100%) (by NoExam)';
     exit;
   end;
   ///check UTF16BE
-  if (IsUTF16BE(byteArr)) then
+  if (IsUTF16BE(singleByteArr)) then
   begin
     GetEncode := 'UTF-16BE (100%) (by NoExam)';
     exit;
   end;
   //не найдена
   Println(OUT_PATH, GetLocalization(7));
+  ///check UTF8
+  if (IsUTF8(doubleByteArr)) then
+  begin
+    GetEncode := 'UTF-8 (100%) (by NoExam)';
+    exit;
+  end;
+  //не найдена
+  Println(OUT_PATH, GetLocalization(8));
+  
+  GetEncode := Scales(singleByteArr);
   
   // сделать функцию кодировок, которая будет вызывать все нужные и возвращать имя
   // кодировки. начислять баллы - за обычные совпадения просто сделать 1 балл, за 
@@ -93,51 +125,50 @@ begin
   ///reset log file / сброс файла логов
   ResetFile(OUT_PATH);
   
-  /// select language interface / выбор языка интерфейса
-  while (true) do
-  begin
-    Println(OUT_PATH, 'Select language: ru or en');
-    readln(s);
-    writeln(' ');
-    if (AnsiPos('en', ' ' + s) <> 0) then
-    begin
-      locale := en;
-      break;
-    end
-    else if (AnsiPos('ru', ' ' + s) <> 0) then 
-    begin
-      locale := ru;
-      break;
-    end
-    else 
-    begin
-      Println(OUT_PATH, s + ' - Inccorect input. Enter ru or en');
-      Println(OUT_PATH, ' ');
-    end;
-  end;
-  //отступ
-  Println(OUT_PATH, ' ');
-  
-    while (true) do
-    begin
-      ///how use / как использовать
-      Println(OUT_PATH, GetLocalization(5));
-      Println(OUT_PATH, GetLocalization(2) + IN_PATH + GetLocalization(3));
-      Println(OUT_PATH, GetLocalization(4));
-      
-      readln(s);
-      
-      ///check exit from programm / проверка выхода из программы
-      // if (s = '') then exit;
-      
-      ///checks file name / проверка имени файла
-      if ((length(s) - AnsiPos('.txt', ' ' + s)) <> 2) then
-      begin
-        Println(OUT_PATH, GetLocalization(6));
-        Println(OUT_PATH, ' ');
-        continue;
-      end;
-    end;
+  //    /// select language interface / выбор языка интерфейса
+  //  while (true) do
+  //  begin
+  //    Println(OUT_PATH, 'Select language: ru or en');
+  //    readln(s);
+  //    writeln(' ');
+  //    if (AnsiPos('en', ' ' + s) <> 0) then
+  //    begin
+  //      locale := en;
+  //      break;
+  //    end
+  //    else if (AnsiPos('ru', ' ' + s) <> 0) then 
+  //    begin
+  //      locale := ru;
+  //      break;
+  //    end
+  //    else 
+  //    begin
+  //      Println(OUT_PATH, s + ' - Inccorect input. Enter ru or en');
+  //      Println(OUT_PATH, ' ');
+  //    end;
+  //  end;
+  //  //отступ
+  //  Println(OUT_PATH, ' ');
+  //  
+  //  while (true) do
+  //  begin
+  //          ///how use / как использовать
+  //    Println(OUT_PATH, GetLocalization(5));
+  //    Println(OUT_PATH, GetLocalization(2) + IN_PATH + GetLocalization(3));
+  //    Println(OUT_PATH, GetLocalization(4));
+  //    readln(s);
+  //    
+  //      ///check exit from programm / проверка выхода из программы
+  //      // if (s = '') then exit;
+  //    
+  //      ///checks file name / проверка имени файла
+  //    if ((length(s) - AnsiPos('.txt', ' ' + s)) <> 2) then
+  //    begin
+  //      Println(OUT_PATH, GetLocalization(6));
+  //      Println(OUT_PATH, ' ');
+  //      continue;
+  //    end;
+  //  end;
   
     //введенное имя передать на расшифровку в байты
     //вызвать принт в котором функцию раскодировки
@@ -165,4 +196,5 @@ end;
 ///main / основная
 begin
   UserTest();
+  readln();
 end.

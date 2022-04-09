@@ -16,7 +16,7 @@ uses Windows;
 const
   en = 0;
   ru = 1;
-
+  
   L_TABLE: array of array of rawbytestring = 
   ///en
   (('Info: Read file, and write to byteArr: ', 
@@ -26,7 +26,8 @@ const
   'To exit the program, leave the input field empty..',
   'Hello!', 
   'Only files with the extension are supported .txt!',
-  'Info: UTF16__ encodings not detected'),
+  'Info: UTF16x encodings not detected',
+  'Info: UTF8 encoding not detected'),
   ///ru
   ('Инф: Чтение файла и запись в byteArr: ', 
   'Инф: Выполненно', 
@@ -35,7 +36,8 @@ const
   'Для выхода из программы оставьте поле ввода пустым..',
   'Здравствуйте!', 
   'Поддерживаются только файлы с расширением .txt!',
-  'Инф: Кодировки UTF16__ не обнаружены'));
+  'Инф: Кодировки UTF16x не обнаружены',
+  'Инф: Кодировка UTF8 не обнаружена'));
 
 var
   locale: integer;

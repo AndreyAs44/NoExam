@@ -1,10 +1,31 @@
-Select language: ru or en
+Info: Read file, and write to byteArr: \In_Files\dataANSI.txt
+Info: Done.
+Info: UTF16x encodings not detected
+Info: UTF8 encoding not detected
+sc
  
-Hello!
-Put the file in \In_Files\ and write FileName.txt
-To exit the program, leave the input field empty..
-Only files with the extension are supported .txt!
+Info: Read file, and write to byteArr: \In_Files\dataDOS.txt
+Info: Done.
+Info: UTF16x encodings not detected
+Info: UTF8 encoding not detected
+sc
  
-Hello!
-Put the file in \In_Files\ and write FileName.txt
-To exit the program, leave the input field empty..
+Info: Read file, and write to byteArr: \In_Files\dataKOI8.txt
+Info: Done.
+Info: UTF16x encodings not detected
+Info: UTF8 encoding not detected
+sc
+ 
+Info: Read file, and write to byteArr: \In_Files\dataUTF8.txt
+Info: Done.
+Info: UTF16x encodings not detected
+UTF-8 (100%) (by NoExam)
+ 
+Info: Read file, and write to byteArr: \In_Files\dataUTF16LE.txt
+Info: Done.
+UTF-16LE (100%) (by NoExam)
+ 
+Info: Read file, and write to byteArr: \In_Files\dataUTF16BE.txt
+Info: Done.
+UTF-16BE (100%) (by NoExam)
+ 

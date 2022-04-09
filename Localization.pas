@@ -19,21 +19,23 @@ const
 
   L_TABLE: array of array of rawbytestring = 
   ///en
-  (('Read file, and write to byteArr: ', 
-  'Done.', 
+  (('Info: Read file, and write to byteArr: ', 
+  'Info: Done.', 
   'Put the file in ',
   ' and write FileName.txt', 
   'To exit the program, leave the input field empty..',
   'Hello!', 
-  'Only files with the extension are supported .txt!'),
+  'Only files with the extension are supported .txt!',
+  'Info: UTF16__ encodings not detected'),
   ///ru
-  ('Чтение файла и запись в byteArr: ', 
-  'Выполненно', 
+  ('Инф: Чтение файла и запись в byteArr: ', 
+  'Инф: Выполненно', 
   'Поместите файл в  ',
   ' и напишите ИмяФайла.txt', 
   'Для выхода из программы оставьте поле ввода пустым..',
   'Здравствуйте!', 
-  'Поддерживаются только файлы с расширением .txt!'));
+  'Поддерживаются только файлы с расширением .txt!',
+  'Инф: Кодировки UTF16__ не обнаружены'));
 
 var
   locale: integer;

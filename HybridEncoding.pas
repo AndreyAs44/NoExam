@@ -11,7 +11,7 @@ program HybridEncoding;
 uses 
   ///Systems
   Windows, SysUtils,
-  ///PArrotPascal
+  ///NoExam
   FilesTools, CheckUTF16, Localization;
 
 const
@@ -67,15 +67,17 @@ begin
   ///check UTF16LE
   if (IsUTF16LE(byteArr)) then
   begin
-    GetEncode := 'UTF-16LE (100%) (by PARrotPAscal)';
+    GetEncode := 'UTF-16LE (100%) (by NoExam)';
     exit;
   end;
   ///check UTF16BE
   if (IsUTF16BE(byteArr)) then
   begin
-    GetEncode := 'UTF-16BE (100%) (by PARrotPAscal)';
+    GetEncode := 'UTF-16BE (100%) (by NoExam)';
     exit;
   end;
+  //не найдена
+  Println(OUT_PATH, GetLocalization(7));
   
   // сделать функцию кодировок, которая будет вызывать все нужные и возвращать имя
   // кодировки. начислять баллы - за обычные совпадения просто сделать 1 балл, за 
@@ -96,6 +98,7 @@ begin
   begin
     Println(OUT_PATH, 'Select language: ru or en');
     readln(s);
+    writeln(' ');
     if (AnsiPos('en', ' ' + s) <> 0) then
     begin
       locale := en;
@@ -112,33 +115,32 @@ begin
       Println(OUT_PATH, ' ');
     end;
   end;
-  //
+  //отступ
   Println(OUT_PATH, ' ');
   
-  while (true) do
-  begin
-    ///how use / как использовать
-    Println(OUT_PATH, GetLocalization(5));
-    Println(OUT_PATH, GetLocalization(2) + IN_PATH + GetLocalization(3));
-    Println(OUT_PATH, GetLocalization(4));
-    
-    readln(s);
-    
-    ///check exit from programm / проверка выхода из программы
-    // if (s = '') then exit;
-    
-    ///checks file name / проверка имени файла
-    Println(OUT_PATH, intToStr(AnsiPos('.txt', ' ' + s)) + intToStr(length(s)));
-    if ((length(s) - AnsiPos('.txt', ' ' + s)) = 2) then
+    while (true) do
     begin
-      Println(OUT_PATH, GetLocalization(6));
-      Println(OUT_PATH, ' ');
-      continue;
+      ///how use / как использовать
+      Println(OUT_PATH, GetLocalization(5));
+      Println(OUT_PATH, GetLocalization(2) + IN_PATH + GetLocalization(3));
+      Println(OUT_PATH, GetLocalization(4));
+      
+      readln(s);
+      
+      ///check exit from programm / проверка выхода из программы
+      // if (s = '') then exit;
+      
+      ///checks file name / проверка имени файла
+      if ((length(s) - AnsiPos('.txt', ' ' + s)) <> 2) then
+      begin
+        Println(OUT_PATH, GetLocalization(6));
+        Println(OUT_PATH, ' ');
+        continue;
+      end;
     end;
-  end;
   
-  //введенное имя передать на расшифровку в байты
-  //вызвать принт в котором функцию раскодировки
+    //введенное имя передать на расшифровку в байты
+    //вызвать принт в котором функцию раскодировки
   
   GetByteArrFromFile('dataANSI.txt');
   Println(OUT_PATH, GetEncode());

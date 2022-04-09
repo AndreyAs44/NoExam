@@ -3,11 +3,6 @@ Select language: ru or en
 Hello!
 Put the file in \In_Files\ and write FileName.txt
 To exit the program, leave the input field empty..
-00
-Hello!
-Put the file in \In_Files\ and write FileName.txt
-To exit the program, leave the input field empty..
-57
 Only files with the extension are supported .txt!
  
 Hello!

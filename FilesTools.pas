@@ -9,28 +9,35 @@
 unit FilesTools;
 
 interface
+
+uses Windows, SysUtils;
+
 ///clearing the file along the way / очистка файла по пути
-procedure ResetFile(path: string);
+procedure ResetFile(path: rawbytestring);
 /// print to console and to file / печать и в консоль и в файл
-procedure Print(path, s: string);
+procedure Print(path, s: rawbytestring);
 /// print to console and to file / печать и в консоль и в файл
-procedure Println(path, s: string);
+procedure Println(path, s: rawbytestring);
 
 implementation
 
-procedure ResetFile(path: string);
+procedure ResetFile(path: rawbytestring);
 var
   tf: TextFile;
 begin
+  path := ExtractFilePath(ParamStr(0)) + path;
+  
   assign(tf, path);
   rewrite(tf);
   close(tf);
 end;
 
-procedure Print(path, s: string);
+procedure Print(path, s: rawbytestring);
 var
   tf: TextFile;
 begin
+  path := ExtractFilePath(ParamStr(0)) + path;
+  
   assign(tf, path);
   append(tf);
   write(s);
@@ -38,10 +45,12 @@ begin
   close(tf);
 end;
 
-procedure Println(path, s: string);
+procedure Println(path, s: rawbytestring);
 var
   tf: TextFile;
 begin
+  path := ExtractFilePath(ParamStr(0)) + path;
+  
   assign(tf, path);
   append(tf);
   writeln(s);

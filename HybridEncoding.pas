@@ -23,7 +23,6 @@ const
 
 var
   singleByteArr, doubleByteArr: array of integer;
-  fileStr: rawbytestring;
 
 ///byte code of characters in the file / байт код символов в файле
 procedure GetByteArrFromFile(name: rawbytestring);
@@ -90,13 +89,13 @@ begin
   ///check UTF16LE
   if (IsUTF16LE(singleByteArr)) then
   begin
-    GetEncode := GetLocalization(10) + 'UTF-16LE (100%) (by NoExam)';
+    GetEncode := GetLocalization(10) + 'UTF-16LE [1200] (100%). By NoExam';
     exit;
   end;
   ///check UTF16BE
   if (IsUTF16BE(singleByteArr)) then
   begin
-    GetEncode := GetLocalization(10) + 'UTF-16BE (100%) (by NoExam)';
+    GetEncode := GetLocalization(10) + 'UTF-16BE [1201] (100%). By NoExam';
     exit;
   end;
   ///not found / не найдена 
@@ -104,14 +103,14 @@ begin
   ///check UTF8
   if (IsUTF8(doubleByteArr)) then
   begin
-    GetEncode := GetLocalization(10) + 'UTF-8 (100%) (by NoExam)';
+    GetEncode := GetLocalization(10) + 'UTF-8 [65001] (100%). By NoExam';
     exit;
   end;
   ///not found / не найдена 
   Println(OUT_PATH, GetLocalization(8));
   
   ///сheck by scales / проверка методом весов 
-  GetEncode := GetLocalization(10) + Scales(singleByteArr);
+  GetEncode := Scales(singleByteArr);
 end;
 
 

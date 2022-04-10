@@ -23,7 +23,7 @@ const
   1.90, 1.74, 0.32, 0.64, 2.01);
   
   ///names / названия
-  ENC_ARR: array of string = ('ANSI', 'DOS', 'KOI8');
+  ENC_ARR: array of rawbytestring = ('ANSI [1251]', 'DOS [IBM437]', 'KOI8 [-r]');
   ENC_MTRX: array of array of integer = 
   ///ansi
   ((224, 225, 226, 227, 228, 229, 184, 230, 231, 232, 233, 234, 235, 236, 237, 238,
@@ -44,13 +44,13 @@ var
   sclArr: array of real; 
 
 ///scales encoding / рассчет кодировки методом весов
-function Scales(const arr: array of integer): string;
+function Scales(const arr: array of integer): rawbytestring;
 ///for module / для модуля
 procedure AddScale(id: integer; const arr: array of integer);
 
 implementation
 
-function Scales(const arr: array of integer): string;
+function Scales(const arr: array of integer): rawbytestring;
 var
   i, index: integer;
   maxMain, maxTemp, percent: real;
@@ -112,18 +112,19 @@ begin
   if (percent > 100) then percent := 100;
   
   ///output the final str / вывести итоговую строку
-  Scales := ENC_ARR[index] + ' (' + floatToStr(percent) + '%) (by NoExam)';
+  Scales := GetLocalization(10) + ENC_ARR[index] + ' (' + floatToStr(percent) 
+    + '%) (by NoExam)';
   
-  //вывод байт массива для отладки
-  i := 0;
-  while (i < length(sclArr)) do
-  begin
-    
-    if (i <> length(sclArr) - 1) then
-      Write(floatToStr(sclArr[i]) + ' ')
-    else Write(floatToStr(sclArr[i]));
-    inc(i);
-  end;
+  //  //вывод байт массива для отладки
+  //  i := 0;
+  //  while (i < length(sclArr)) do
+  //  begin
+  //    
+  //    if (i <> length(sclArr) - 1) then
+  //      Write(floatToStr(sclArr[i]) + ' ')
+  //    else Write(floatToStr(sclArr[i]));
+  //    inc(i);
+  //  end;
 end;
 
 procedure AddScale(id: integer; const arr: array of integer);

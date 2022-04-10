@@ -52,7 +52,7 @@ begin
   while (i < length(s)) do
   begin
     inc(i);
-    singleByteArr[i] := integer(ord(s[i])); // сделать массив 
+    singleByteArr[i] := integer(ord(s[i]));
   end;
   
   ///calculating a double byte array / вычисление двойного байт массива
@@ -84,117 +84,128 @@ function GetEncode() : rawbytestring;
 begin
   ///hybrid definition. / гибридное определение.
   ///method of scales and regular sorting is combined
-  ///совмещается метод весов и закономерных сортировок
+  ///совмещается метод весов и закономерных сортировок  
   
+  ///сheck by regular sorting / проверка с помощью закономерных сортировок
   ///check UTF16LE
   if (IsUTF16LE(singleByteArr)) then
   begin
-    GetEncode := 'UTF-16LE (100%) (by NoExam)';
+    GetEncode := GetLocalization(10) + 'UTF-16LE (100%) (by NoExam)';
     exit;
   end;
   ///check UTF16BE
   if (IsUTF16BE(singleByteArr)) then
   begin
-    GetEncode := 'UTF-16BE (100%) (by NoExam)';
+    GetEncode := GetLocalization(10) + 'UTF-16BE (100%) (by NoExam)';
     exit;
   end;
-  //не найдена
+  ///not found / не найдена 
   Println(OUT_PATH, GetLocalization(7));
   ///check UTF8
   if (IsUTF8(doubleByteArr)) then
   begin
-    GetEncode := 'UTF-8 (100%) (by NoExam)';
+    GetEncode := GetLocalization(10) + 'UTF-8 (100%) (by NoExam)';
     exit;
   end;
-  //не найдена
+  ///not found / не найдена 
   Println(OUT_PATH, GetLocalization(8));
   
-  GetEncode := Scales(singleByteArr);
-  
-  // сделать функцию кодировок, которая будет вызывать все нужные и возвращать имя
-  // кодировки. начислять баллы - за обычные совпадения просто сделать 1 балл, за 
-  // последовательности 2 балла (если 208 или 209 то если через одну будет также,то 2 балла, проверять на длинну.)
-  // ЗАпихуянить в модуль?
+  ///сheck by scales / проверка методом весов 
+  GetEncode := GetLocalization(10) + Scales(singleByteArr);
 end;
 
+
 procedure UserTest();
+label RepeatEnter, ChangeLocale;
 var
   s: rawbytestring;
   i: integer;
+  f: file of char;
 begin
   ///reset log file / сброс файла логов
   ResetFile(OUT_PATH);
   
-  //    /// select language interface / выбор языка интерфейса
-  //  while (true) do
-  //  begin
-  //    Println(OUT_PATH, 'Select language: ru or en');
-  //    readln(s);
-  //    writeln(' ');
-  //    if (AnsiPos('en', ' ' + s) <> 0) then
-  //    begin
-  //      locale := en;
-  //      break;
-  //    end
-  //    else if (AnsiPos('ru', ' ' + s) <> 0) then 
-  //    begin
-  //      locale := ru;
-  //      break;
-  //    end
-  //    else 
-  //    begin
-  //      Println(OUT_PATH, s + ' - Inccorect input. Enter ru or en');
-  //      Println(OUT_PATH, ' ');
-  //    end;
-  //  end;
-  //  //отступ
-  //  Println(OUT_PATH, ' ');
-  //  
-  //  while (true) do
-  //  begin
-  //          ///how use / как использовать
-  //    Println(OUT_PATH, GetLocalization(5));
-  //    Println(OUT_PATH, GetLocalization(2) + IN_PATH + GetLocalization(3));
-  //    Println(OUT_PATH, GetLocalization(4));
-  //    readln(s);
-  //    
-  //      ///check exit from programm / проверка выхода из программы
-  //      // if (s = '') then exit;
-  //    
-  //      ///checks file name / проверка имени файла
-  //    if ((length(s) - AnsiPos('.txt', ' ' + s)) <> 2) then
-  //    begin
-  //      Println(OUT_PATH, GetLocalization(6));
-  //      Println(OUT_PATH, ' ');
-  //      continue;
-  //    end;
-  //  end;
+  /// select language interface / выбор языка интерфейса
+  ChangeLocale:
+  while (true) do
+  begin
+    Println(OUT_PATH, 'Select language: ru or en');
+    readln(s);
+    if (AnsiPos('en', ' ' + s) <> 0) then
+    begin
+      locale := en;
+      break;
+    end
+    else if (AnsiPos('ru', ' ' + s) <> 0) then 
+    begin
+      locale := ru;
+      break;
+    end
+      else 
+    begin
+      Println(OUT_PATH, s + ' - Inccorect input. Enter ru or en');
+      Println(OUT_PATH, ' ');
+    end;
+  end;
+  Println(OUT_PATH, GetLocalization(11));
+  Println(OUT_PATH, ' ');
   
-    //введенное имя передать на расшифровку в байты
-    //вызвать принт в котором функцию раскодировки
   
-  GetByteArrFromFile('dataANSI.txt');
+  ///hello / здравствуйте
+  Println(OUT_PATH, GetLocalization(5));
+  
+  RepeatEnter:
+  ///how use / как использовать
+  Println(OUT_PATH, GetLocalization(2) + IN_PATH + GetLocalization(3));
+  Println(OUT_PATH, GetLocalization(4));
+  
+  readln(s);
+  
+  ///check exit from programm / проверка выхода из программы
+  if (s = '') then exit;
+  
+  ///change local? / сменить локализацию?
+  if (s = 'locale') then 
+  begin
+    Println(OUT_PATH, ' ');
+    goto ChangeLocale;
+  end;
+  
+  ///checks file name / проверка имени файла
+  if ((length(s) > 2) and ((length(s) - AnsiPos('.txt', ' ' + s)) <> 2)) then
+  begin
+    Println(OUT_PATH, GetLocalization(6));
+    Println(OUT_PATH, ' ');
+    goto RepeatEnter;
+  end;
+  
+  ///checks file exists / проверка существует ли файл
+  if (not (FileExists(ExtractFilePath(ParamStr(0)) + IN_PATH + s))) then
+  begin
+    Println(OUT_PATH, GetLocalization(13));
+    Println(OUT_PATH, ' ');
+    goto RepeatEnter;
+  end;
+  
+  ///checks is file empty / проверка пустой ли файл
+  Assign(f, ExtractFilePath(ParamStr(0)) + IN_PATH + s);
+  Reset(f);
+  if (FileSize(f) = 0) then 
+  begin
+    Println(OUT_PATH, GetLocalization(12));
+    Println(OUT_PATH, ' ');
+    goto RepeatEnter;
+  end;
+  Close(f);
+  
+  ///main / основная
+  GetByteArrFromFile(s);
   Println(OUT_PATH, GetEncode());
   Println(OUT_PATH, ' ');
-  GetByteArrFromFile('dataDOS.txt');
-  Println(OUT_PATH, GetEncode());
-  Println(OUT_PATH, ' ');
-  GetByteArrFromFile('dataKOI8.txt');
-  Println(OUT_PATH, GetEncode());
-  Println(OUT_PATH, ' ');
-  GetByteArrFromFile('dataUTF8.txt');
-  Println(OUT_PATH, GetEncode());
-  Println(OUT_PATH, ' ');
-  GetByteArrFromFile('dataUTF16LE.txt');
-  Println(OUT_PATH, GetEncode());
-  Println(OUT_PATH, ' ');
-  GetByteArrFromFile('dataUTF16BE.txt');
-  Println(OUT_PATH, GetEncode());
-  Println(OUT_PATH, ' ');
+  goto RepeatEnter;
 end;
 
-///main / основная
+///begin / беджин
 begin
   UserTest();
-  readln();
 end.

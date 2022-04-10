@@ -1,31 +1,39 @@
-Info: Read file, and write to byteArr: \In_Files\dataANSI.txt
-Info: Done.
-Info: UTF16x encodings not detected
-Info: UTF8 encoding not detected
-sc
+Select language: ru or en
+джваьд - Inccorect input. Enter ru or en
  
-Info: Read file, and write to byteArr: \In_Files\dataDOS.txt
-Info: Done.
-Info: UTF16x encodings not detected
-Info: UTF8 encoding not detected
-sc
+Select language: ru or en
+Вы всегда можете сменить язык командой "locale"
  
-Info: Read file, and write to byteArr: \In_Files\dataKOI8.txt
-Info: Done.
-Info: UTF16x encodings not detected
-Info: UTF8 encoding not detected
-sc
+Здравствуйте!
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
  
-Info: Read file, and write to byteArr: \In_Files\dataUTF8.txt
-Info: Done.
-Info: UTF16x encodings not detected
-UTF-8 (100%) (by NoExam)
+Select language: ru or en
+Вы всегда можете сменить язык командой "locale"
  
-Info: Read file, and write to byteArr: \In_Files\dataUTF16LE.txt
-Info: Done.
-UTF-16LE (100%) (by NoExam)
+Здравствуйте!
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
+Ошибка: Поддерживаются только файлы с расширением .txt!
  
-Info: Read file, and write to byteArr: \In_Files\dataUTF16BE.txt
-Info: Done.
-UTF-16BE (100%) (by NoExam)
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
+Ошибка: файл не найден
  
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
+Инф: Чтение файла и запись в byteArr: \In_Files\dataANSI.txt
+Инф: Выполненно
+Инф: Кодировки UTF16x не обнаружены
+Инф: Кодировка UTF8 не обнаружена
+Результат: Ошибка: Кодировка либо символы не поддерживаются данной программой!
+ 
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
+Инф: Чтение файла и запись в byteArr: \In_Files\dataUTF8.txt
+Инф: Выполненно
+Инф: Кодировки UTF16x не обнаружены
+Результат: UTF-8 (100%) (by NoExam)
+ 
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..

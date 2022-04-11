@@ -21,16 +21,17 @@ const
   4.54, 1.70, 2.98, 8.45, 0.04, 0.94, 1.65, 7.35, 1.21, 3.49, 4.40, 3.21, 6.70,
   10.97, 2.81, 4.73, 5.47, 6.26, 2.62, 0.26, 0.97, 0.48, 1.44, 0.73, 0.36, 0.04,
   1.90, 1.74, 0.32, 0.64, 2.01);
+  RATE_MTRX: array of array of real = 
+  ((), ());
   
   ///names / названия
   ENC_ARR: array of rawbytestring = (
   'WINDOWS-1251 [1251]',
   'DOS/IBM437 [437], WINDOWS-1252 [1252], BIG5 [950], IBM865 [865]',
-  'KOI8-r [20866]',
+  'KOI8-r/KOI8-u [20866/21866]',
   'CP866 [866]',
   'IBM855 [855]',
   'ISO-8859-5 [28595]',
-  'KOI8-u [21866]',
   'X-MAC-CYRILLIC [10007]');
   
   ENC_MTRX: array of array of integer = 
@@ -66,12 +67,6 @@ const
   239, 176, 177, 178, 179, 180, 181, 161, 182, 183, 184, 185, 186, 187, 188, 189,
   190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205,
   206, 207),
-  ///koi8-u
-  (193, 194, 215, 199, 196, 197, 163, 214, 218, 201, 202, 203, 204, 205, 206, 207,
-  208, 210, 211, 212, 213, 198, 200, 195, 222, 219, 221, 223, 217, 216, 220, 192,
-  209, 225, 226, 247, 231, 228, 229, 179, 246, 250, 233, 234, 235, 236, 237, 238,
-  239, 240, 242, 243, 244, 245, 230, 232, 227, 254, 251, 253, 255, 249, 248, 252,
-  224, 241),
   ///x-mac-cyrillic
   (224, 225, 226, 227, 228, 229, 222, 230, 231, 232, 233, 234, 235, 236, 237, 238,
   239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254,
@@ -176,7 +171,7 @@ end;
 
 procedure AddScale(id: integer; const arr: array of integer);
 var
-  i, j: integer;
+  i, j, k: integer;
 begin
   i := 0;
   while (i < length(arr) - 1) do
@@ -187,7 +182,26 @@ begin
     begin
       if (arr[i] = ENC_MTRX[id][j]) then 
       begin
+        ///rate arr
         sclArr[id] := sclArr[id] + RATE_ARR[j];
+        
+        ///rate mtrx
+        if (i <> length(arr) - 1) then 
+        begin
+          k := 0;
+          while (k < length(ENC_MTRX[id])) do
+          begin
+            if (arr[i + 1] = ENC_MTRX[id][k]) then 
+            begin
+              writeln(RATE_MTRX[j][k]);
+              sclArr[id] := sclArr[id] + RATE_MTRX[j][k];
+              break;
+            end;
+            inc(k);
+          end;
+        end;
+        
+        ///break
         break;
       end;
       inc(j);

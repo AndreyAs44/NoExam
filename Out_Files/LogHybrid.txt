@@ -1,27 +1,98 @@
 Select language: ru or en
+locale - Inccorect input. Enter ru or en
+ 
+Select language: ru or en
+or - Inccorect input. Enter ru or en
+ 
+Select language: ru or en
+You can always change the language with the "locale" command
+ 
+Hello!
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
+Error: Only files with the extension are supported .txt!
+ 
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
+Error: Only files with the extension are supported .txt!
+ 
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
+Error: file not found
+ 
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
+ 
+Select language: ru or en
 Вы всегда можете сменить язык командой "locale"
  
 Здравствуйте!
 Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
 Для выхода из программы оставьте поле ввода пустым..
-----------
-Инф: Чтение файла и запись в byteArr: \In_Files\dataDOS.txt
-Инф: Выполненно
-Инф: Кодировки UTF16x не обнаружены
-Инф: Кодировка UTF8 не обнаружена
-----------
-Кодировка не поддерживает русский язык. Возможно это одна из:
-DOS/IBM437 [437], WINDOWS-1252 [1252], BIG5 [950], IBM865 [865]... (by NoExam)
+Ошибка: файл не найден
+ 
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
+Ошибка: Поддерживаются только файлы с расширением .txt!
  
 Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
 Для выхода из программы оставьте поле ввода пустым..
 ----------
-Инф: Чтение файла и запись в byteArr: \In_Files\.txt
+Инф: Чтение файла и запись в byteArr: \In_Files\dataANSI.txt
 Инф: Выполненно
 Инф: Кодировки UTF16x не обнаружены
 Инф: Кодировка UTF8 не обнаружена
 ----------
-Результат: KOI8-r [20866] (63,9%) (by NoExam)
+Ошибка: Кодировка либо символы не поддерживаются данной программой!
  
 Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
 Для выхода из программы оставьте поле ввода пустым..
+Ошибка: файл не найден
+ 
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
+Ошибка: файл не найден
+ 
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
+Ошибка: Поддерживаются только файлы с расширением .txt!
+ 
+Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
+Для выхода из программы оставьте поле ввода пустым..
+ 
+Select language: ru or en
+You can always change the language with the "locale" command
+ 
+Hello!
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
+----------
+Info: Read file, and write to byteArr: \In_Files\.txt
+Info: Done.
+Info: UTF16x encodings not detected
+Info: UTF8 encoding not detected
+----------
+Result: CP866 [866] (66,5%) (by NoExam)
+ 
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
+----------
+Info: Read file, and write to byteArr: \In_Files\.txt
+Info: Done.
+Info: UTF16x encodings not detected
+Info: UTF8 encoding not detected
+----------
+Result: CP866 [866] (62,5%) (by NoExam)
+ 
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
+----------
+Info: Read file, and write to byteArr: \In_Files\.txt
+Info: Done.
+Info: UTF16x encodings not detected
+Info: UTF8 encoding not detected
+----------
+Result: WINDOWS-1251 [1251] (51,9%) (by NoExam)
+ 
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..

@@ -32,6 +32,8 @@ var
   ws: widestring;
   i, m, n: integer;
 begin
+  Println(OUT_PATH, '----------');
+  
   Println(OUT_PATH, GetLocalization(0) + IN_PATH + name);
   assign(tf, ExtractFilePath(ParamStr(0)) + IN_PATH + name);
   
@@ -199,7 +201,7 @@ begin
   
   ///main / основная
   GetByteArrFromFile(s);
-  Println(OUT_PATH, GetEncode());
+  Println(OUT_PATH, '----------' + #10 + GetEncode());
   Println(OUT_PATH, ' ');
   goto RepeatEnter;
 end;

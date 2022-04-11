@@ -17,8 +17,10 @@ const
   ///console file / файл того что в консоли
   OUT_PATH: rawbytestring = '\Out_Files\LogByteCodes.txt';
 
-var 
+var
   readStr: rawbytestring;
+  massiv: Array of String;
+  ind: integer;
 
 ///byte code of characters in the file, and print / байт код символов в файле, и печатает
 procedure FileToBytePrint(name: rawbytestring);
@@ -83,7 +85,7 @@ begin
   end;
   
   Println(OUT_PATH, ' ');
-  Println(OUT_PATH,'DoubleByteArr: (' + intToStr(length(doubleByteArr) - 1) + ')');
+  Println(OUT_PATH, 'DoubleByteArr: (' + intToStr(length(doubleByteArr) - 1) + ')');
   i := 0;
   while (i < length(doubleByteArr) - 1) do
   begin
@@ -93,16 +95,59 @@ begin
     else Print(OUT_PATH, intToStr(doubleByteArr[i]));
   end;
   
-  Println(OUT_PATH,' ');
-  Println(OUT_PATH,' ');
+  Println(OUT_PATH, ' ');
+  Println(OUT_PATH, ' ');
+end;
+
+// поиск файлов
+procedure FindFiles;
+var
+  SearchRec: TSearchRec; // информация о файле или каталоге
+  FileName, cDir: String;
+  n: LongInt;
+
+begin
+  
+  n := 1;
+  cDir := ExtractFilePath(ParamStr(0)) + IN_PATH; // Искать в папке с программой
+  FileName := '*.txt'; // Ищем все файлы
+  ChDir(cDir);// войти в каталог
+  if FindFirst(FileName, faArchive, SearchRec) = 0 then
+    repeat
+      if (SearchRec.Attr and faAnyFile) = SearchRec.Attr then
+      begin
+        SetLength(massiv, Length(massiv) + 1);
+        massiv[n - 1] := SearchRec.Name;
+        inc(n);
+      end;
+    until FindNext(SearchRec) <> 0;
+  
 end;
 
 begin
   ResetFile(OUT_PATH);
-  while (true) do
+  
+  while (true) do 
   begin
-    writeln('Enter "name".txt');
+    writeln('Scan all in path? (y/n)');
     readln(readStr);
-    FileToBytePrint(readStr);
+    if (readStr = 'y') then 
+    begin
+      FindFiles();
+      
+    ind := 0;
+      while (ind < length(massiv)) do
+      begin
+        FileToBytePrint(massiv[ind]);
+        inc(ind);
+      end;
+    end
+    else if (readStr = 'n') then 
+    begin
+      writeln('Enter "name".txt');
+      readln(readStr);
+      FileToBytePrint(readStr);
+    end
+    else writeln('Error: enter y or n' + #10);
   end;
 end.

@@ -107,7 +107,6 @@ var
   n: LongInt;
 
 begin
-  
   n := 1;
   cDir := ExtractFilePath(ParamStr(0)) + IN_PATH; // Искать в папке с программой
   FileName := '*.txt'; // Ищем все файлы
@@ -120,8 +119,7 @@ begin
         massiv[n - 1] := SearchRec.Name;
         inc(n);
       end;
-    until FindNext(SearchRec) <> 0;
-  
+    until (FindNext(SearchRec) <> 0)
 end;
 
 begin
@@ -133,20 +131,37 @@ begin
     readln(readStr);
     if (readStr = 'y') then 
     begin
-      FindFiles();
       
-    ind := 0;
+      
+      FindFiles();
+      ind := 0;
       while (ind < length(massiv)) do
       begin
         FileToBytePrint(massiv[ind]);
         inc(ind);
       end;
+      
+      writeln('Enter "reset" to delete text in log.txt')
     end
     else if (readStr = 'n') then 
     begin
       writeln('Enter "name".txt');
       readln(readStr);
+      
+      if (not (FileExists(ExtractFilePath(ParamStr(0)) + IN_PATH + readStr))) then
+      begin
+        writeln('File ', ExtractFilePath(ParamStr(0)) + IN_PATH + readStr, ' not found.' + #10);
+        continue;
+      end;
+      
       FileToBytePrint(readStr);
+      
+      writeln('Enter "reset" to delete text in log.txt')
+    end
+    else if (readStr = 'reset') then
+    begin
+      ResetFile(OUT_PATH);
+      writeln('Reset ', OUT_PATH, ' complete.' + #10);
     end
     else writeln('Error: enter y or n' + #10);
   end;

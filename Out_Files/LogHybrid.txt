@@ -1,36 +1,16 @@
 Select language: ru or en
-Вы всегда можете сменить язык командой "locale"
+You can always change the language with the "locale" command
  
-Здравствуйте!
-Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
-Для выхода из программы оставьте поле ввода пустым..
+Hello!
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
 ----------
-Инф: Чтение файла и запись в byteArr: \In_Files\.txt
-Инф: Выполненно
-Инф: Кодировки UTF16x не обнаружены
-Инф: Кодировка UTF8 не обнаружена
+Info: Read file, and write to byteArr: \In_Files\dataANSI.txt
+Info: Done.
+Info: UTF16x encodings not detected
+Info: UTF8 encoding not detected
 ----------
-Результат: ISO-8859-5 [28595] (54%) (by NoExam)
+Error: Encoding or symbols is not supported by this program!
  
-Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
-Для выхода из программы оставьте поле ввода пустым..
-----------
-Инф: Чтение файла и запись в byteArr: \In_Files\.txt
-Инф: Выполненно
-Инф: Кодировки UTF16x не обнаружены
-Инф: Кодировка UTF8 не обнаружена
-----------
-Результат: CP866 [866] (77,9%) (by NoExam)
- 
-Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
-Для выхода из программы оставьте поле ввода пустым..
-----------
-Инф: Чтение файла и запись в byteArr: \In_Files\.txt
-Инф: Выполненно
-Инф: Кодировки UTF16x не обнаружены
-Инф: Кодировка UTF8 не обнаружена
-----------
-Результат: X-MAC-CYRILLIC [10007] (61,3%) (by NoExam)
- 
-Поместите файл в \In_Files\ и введите в консоль "ИмяФайла".txt
-Для выхода из программы оставьте поле ввода пустым..
+Put the file in \In_Files\ and enter to console "FileName".txt
+To exit the program, leave the input field empty..
